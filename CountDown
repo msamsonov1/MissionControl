@@ -1,0 +1,20 @@
+import matplotlib.pyplot as plt
+from matplotlib.animation import FuncAnimation
+
+fig, ax = plt.subplots()
+countdown = 5
+
+def update(frame):
+    global countdown
+    ax.clear()
+    if countdown == 0:
+        ax.set_title("Blast off!")
+        return
+    ax.set_title(f"Countdown: {countdown}")
+    countdown -= 1
+    ax.set_xlim(0, 1)
+    ax.set_ylim(0, 1)
+    ax.text(0.5, 0.5, countdown, fontsize=50, ha="center", va="center")
+
+ani = FuncAnimation(fig, update, frames=5, interval=1000, repeat=False)
+plt.show()
