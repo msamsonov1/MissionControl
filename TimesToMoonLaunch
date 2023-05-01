@@ -1,0 +1,52 @@
+import datetime
+
+def get_time_range(start_time, end_time):
+    time_range = []
+    delta = datetime.timedelta(minutes=30)
+    while start_time < end_time:
+        time_range.append(start_time)
+        start_time += delta
+    return time_range
+
+# Define launch windows for moon landing
+launch_date = datetime.datetime(2023, 7, 16)
+launch_window_start = datetime.datetime(2023, 7, 16, 9, 30)
+launch_window_end = datetime.datetime(2023, 7, 16, 11, 30)
+
+# Calculate launch windows as time ranges
+start_time = datetime.datetime.combine(launch_date, launch_window_start.time())
+end_time = datetime.datetime.combine(launch_date, launch_window_end.time())
+launch_windows = get_time_range(start_time, end_time)
+
+# Print out the launch windows
+print("Launch windows for moon landing:")
+for window in launch_windows:
+    print(window.time())
+
+
+# Define departure and arrival bodies
+dep_body = Earth
+arr_body = Moon
+
+# Define the time range to check for launch windows (one month)
+start_time = datetime.datetime(2023, 1, 1, 0, 0, 0)
+end_time = datetime.datetime(2023, 2, 1, 0, 0, 0)
+time_range = get_time_range(start_time, end_time)
+
+# Define minimum and maximum allowable delta-v for the rocket
+min_delta_v = 10 # km/s
+max_delta_v = 15 # km/s
+
+# Calculate launch windows for given time range and delta-v constraints
+for t in time_range:
+    # Define departure and arrival orbits
+    dep_orbit = dep_body.sample(t)
+    arr_orbit = arr_body.sample(t)
+
+    # Calculate delta-v required to transfer from departure to arrival orbit
+    (v_dep, v_arr), = dep_orbit.lambert(arr_orbit, t.to_datetime())
+    delta_v = (v_dep - dep_orbit.v).norm() + (v_arr - arr_orbit.v).norm()
+
+    # Check if delta-v is within allowable range and print result
+    if min_delta_v <= delta_v <= max_delta_v:
+        print(f"Launch window at {t} with delta-v {delta_v:.2f} km/s")
