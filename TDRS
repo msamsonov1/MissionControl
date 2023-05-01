@@ -1,0 +1,38 @@
+# Import necessary libraries
+import tdrs
+import sdr
+import rtl
+
+# Set up communication with TDRS system using S-band and Ku-band frequencies
+tdrs.setup(S_BAND_FREQ_RANGE=(2.0, 2.3), KU_BAND_FREQ_RANGE=(10.7, 12.75))
+
+# Send voice, video, and telemetry data using TDRS system
+tdrs.send_data(voice_data)
+tdrs.send_data(video_data)
+tdrs.send_data(telemetry_data)
+
+# Use UHF radios to communicate during spacewalks
+uhf_radio = Radio(frequency_range=(300, 3000), bandwidth=20)
+uhf_radio.connect()
+
+# Use VHF radios to communicate during docking and other maneuvers
+vhf_radio = Radio(frequency_range=(30, 300), bandwidth=5)
+vhf_radio.connect()
+
+# Prompt user for input
+transmit_to = input("Transmit data to whom? (Astronaut / Send Data / Receive) ")
+
+# If user selects to transmit data, use SDR or  RTL-SDR to send data
+if transmit_to.lower() == "send data":
+    transmit = input("Do you have SDR or RTL-SDR? (SDR / RTL-SDR) ")
+    if transmit.lower() == "sdr":
+        sdr.send_data(data)
+    elif transmit.lower() == "rtl-sdr":
+        rtl.send_data(data)
+    else:
+        print("Invalid input")
+# If user selects astronaut or receive, do nothing
+elif transmit_to.lower() == "astronaut" or transmit_to.lower() == "receive":
+    pass
+else:
+    print("Invalid input")
