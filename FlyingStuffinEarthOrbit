@@ -1,0 +1,27 @@
+import requests
+from bs4 import BeautifulSoup
+
+# URL of the Stuff in Space website
+url = 'https://sky.rogue.space/'
+
+# Send a GET request to the website and get the HTML response
+response = requests.get(url)
+
+# Parse the HTML using BeautifulSoup
+soup = BeautifulSoup(response.text, 'html.parser')
+
+# Find the table containing the space junk data
+table = soup.find('table', {'id': 'table'})
+
+# Check if the table exists
+if table is None:
+  print('The table does not exist.')
+else:
+  # Loop through each row in the table (except the header row) and extract the coordinates
+  for row in table.find_all('tr')[1:]:
+    # Extract the latitude and longitude coordinates from the second and third columns, respectively
+    latitude = float(row.find_all('td')[1].text)
+    longitude = float(row.find_all('td')[2].text)
+    
+    # Print the coordinates
+    print(f'Latitude: {latitude}, Longitude: {longitude}')
