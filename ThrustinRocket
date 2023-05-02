@@ -1,0 +1,7 @@
+specific_impulse = 300 # seconds
+mass_flow_rate = 5000000 # lbs per second converted to kg per second
+gravity = 9.81 # m/s^2
+
+thrust = specific_impulse * mass_flow_rate * gravity
+
+print(f"The output thrust of the rocket is {thrust:.2e} joules.")
