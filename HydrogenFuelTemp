@@ -1,0 +1,12 @@
+import random
+
+max_temp = 500  # maximum allowed temperature in Celsius for hydrogen fuel
+environmental_temp = 25  # environmental temperature in Celsius
+max_allowable_temp = max_temp + environmental_temp  # maximum allowable temperature accounting for environmental conditions
+current_temp = random.randint(400, 600)  # simulate current temperature between 400 and 600 Celsius
+
+if current_temp > max_allowable_temp:
+    print("Warning: Hydrogen fuel temperature exceeded the maximum allowable temperature accounting for environmental conditions!")
+    # Code to activate coolant system goes here
+else:
+    print("Hydrogen fuel temperature is within the safe range.")
