@@ -1,0 +1,61 @@
+import numpy as np
+import matplotlib.pyplot as plt
+from matplotlib.animation import FuncAnimation
+
+# Constants
+r_nucleus = 0.2
+r_plasma = 1
+speed_nucleus = 0.2
+speed_plasma = 0.02
+n_frames = 200
+
+# Initial positions
+init_pos_n = np.array([0, 0])
+init_pos_u = np.array([0, 3*r_nucleus])
+init_pos_p = np.array([r_plasma, 0])
+
+# Figure and axis
+fig, ax = plt.subplots()
+ax.set_xlim(-2, 2)
+ax.set_ylim(-2, 5)
+
+# Artists
+nucleus = plt.Circle(init_pos_n, r_nucleus, color='black')
+uranium = plt.Circle(init_pos_u, r_nucleus, color='red')
+plasma = plt.Circle(init_pos_p, r_plasma, color='blue')
+
+# Add artists to axis
+ax.add_artist(nucleus)
+ax.add_artist(uranium)
+ax.add_artist(plasma)
+
+# Animation function
+def animate(frame, init_pos_n, init_pos_u, init_pos_p, r_nucleus, r_plasma, speed_nucleus, speed_plasma):
+    # Calculate new positions
+    theta_n = frame * speed_nucleus
+    theta_p = frame * speed_plasma
+    new_pos_n = np.array([np.cos(theta_n), np.sin(theta_n)]) * (r_nucleus + r_plasma)
+    new_pos_u = np.array([np.cos(theta_n), np.sin(theta_n)]) * (r_nucleus + r_plasma) + init_pos_u - init_pos_n
+    new_pos_p = np.array([np.cos(theta_p), np.sin(theta_p)]) * r_plasma
+
+    # Update positions
+    nucleus.center = new_pos_n
+    uranium.center = new_pos_u
+    plasma.center = new_pos_p
+
+    # Check for collision between nucleus and uranium
+    if np.linalg.norm(new_pos_n - new_pos_u) <= 2 * r_nucleus:
+        print("Collision detected!")
+        return [nucleus, uranium, plasma]
+
+    # Check for collision between plasma and nucleus
+    if np.linalg.norm(new_pos_p - new_pos_n) <= r_plasma + r_nucleus:
+        print("Plasma hit nucleus!")
+        return [nucleus, uranium, plasma]
+
+    return [nucleus, uranium, plasma]
+
+# Animation instance
+ani = FuncAnimation(fig, animate, frames=n_frames, fargs=(init_pos_n, init_pos_u, init_pos_p, r_nucleus, r_plasma, speed_nucleus, speed_plasma), interval=50, blit=True)
+
+plt.show()
