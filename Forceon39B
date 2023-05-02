@@ -1,0 +1,8 @@
+thrust = 5000000 # in pounds
+weight = 1000000 # in pounds
+acceleration = 9.81 # in m/s^2
+mass = weight / 2.20462 # convert weight from pounds to kg
+force = thrust - mass * acceleration * 9.81 # calculate force in Newtons
+force_lbs = force * 0.224809 # convert force from Newtons to pounds
+
+print("The maximum force exerted on foundation pad 39B is:", round(force_lbs, 2), "lbs")
