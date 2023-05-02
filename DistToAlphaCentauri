@@ -1,0 +1,13 @@
+import math
+
+# Define the distance between Earth and Alpha Centauri in light years
+distance_to_alpha_centauri = 4.37
+
+# Convert the distance to au
+distance_to_alpha_centauri_au = distance_to_alpha_centauri * 63,241
+
+# Convert the distance to miles
+distance_to_alpha_centauri_miles = distance_to_alpha_centauri_au * 5,878,600,000
+
+# Print the distance in au and miles
+print("The distance to Alpha Centauri is {} au or {} miles.".format(distance_to_alpha_centauri_au, distance_to_alpha_centauri_miles))
