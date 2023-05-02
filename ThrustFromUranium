@@ -1,0 +1,31 @@
+def uranium_235_output_thrust(mass_uranium_235, specific_impulse):
+  """
+  Calculates the output thrust in joules of a given mass of uranium 235.
+
+  Args:
+    mass_uranium_235 (float): The mass of uranium 235 in kilograms.
+    specific_impulse (float): The specific impulse of the uranium 235 in seconds.
+
+  Returns:
+    The output thrust in joules.
+  """
+
+  # Calculate the energy released by the fission of a single atom of uranium 235.
+  energy_per_atom = 19.6 * 10**-13
+
+  # Calculate the total energy released by the fission of the given mass of uranium 235.
+  energy_released = energy_per_atom * mass_uranium_235
+
+  # Calculate the thrust.
+  thrust = energy_released / specific_impulse
+
+  print(thrust)
+
+
+# Test the function with different values of mass and specific impulse.
+mass_uranium_235 = 1
+specific_impulse = 300
+
+thrust = uranium_235_output_thrust(mass_uranium_235, specific_impulse)
+
+print(thrust)
