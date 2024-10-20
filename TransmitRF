@@ -1,0 +1,30 @@
+import rtlsdr
+import time
+
+# Initialize the RTL-SDR device
+sdr = rtlsdr.RtlSdr()
+
+# Set the center frequency to 124 MHz
+sdr.center_freq = 124e6
+
+# Set the sample rate to a suitable value (adjust as needed)
+sdr.sample_rate = 2.4e6
+
+# Set the gain (adjust as needed)
+sdr.gain = 0
+
+# Generate a sine wave signal
+sample_length = sdr.sample_rate
+samples = [math.sin(2 * math.pi * 124e6 * t / sdr.sample_rate) for t in range(sample_length)]
+
+# Transmit the signal
+sdr.write_samples(samples)
+
+# Wait for one second
+time.sleep(1)
+
+# Stop transmission
+sdr.write_samples([])
+
+# Close the SDR device
+sdr.close()
