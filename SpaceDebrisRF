@@ -1,0 +1,44 @@
+import math
+import requests
+from bs4 import BeautifulSoup
+
+def calculate_resonant_frequency(length, youngs_modulus, density):
+  """
+  Calculates the resonant frequency of a beam.
+
+  Args:
+    length: The length of the beam in meters.
+    youngs_modulus: The Young's modulus of the material in Pa.
+    density: The density of the material in kg/m^3.
+
+  Returns:
+    The resonant frequency in Hz.
+  """
+
+  f = (1 / (2 * length)) * math.sqrt(youngs_modulus / density)
+  return f
+
+# Function to get space debris data from stuffin.space (limited information)
+def get_debris_data():
+  url = "https://stuffin.space/debris"
+  response = requests.get(url)
+  soup = BeautifulSoup(response.content, 'html.parser')
+  debris_data = []
+  for debris in soup.find_all('tr', class_="sat-data"):
+    name = debris.find('td', class_="name").text
+    length = "Information not available"  # Website might not provide length
+    debris_data.append({"name": name, "length": length})
+  return debris_data
+
+# Get space debris data (potentially incomplete)
+debris_data = get_debris_data()
+
+# Print data with calculated resonant frequency (assuming known lengths)
+for debris in debris_data:
+  # Replace with actual length if available from a different source
+  length = 1  # Placeholder for demonstration purposes
+  youngs_modulus = 200 * 10**9  # Pa (assuming steel)
+  density = 7850  # kg/m^3 (assuming steel)
+
+  resonant_frequency = calculate_resonant_frequency(length, youngs_modulus, density)
+  print(f"Debris Name: {debris['name']}, Length: {length} m, Resonant Frequency: {resonant_frequency:.2f} Hz")
